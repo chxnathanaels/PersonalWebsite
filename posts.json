@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Playing with macOS, again",
+    "slug": "playing-with-macos-again",
+    "url": "https://christiannsantoso.hashnode.dev/playing-with-macos-again",
+    "date": "2026-11-01",
+    "excerpt": "So this is my experience in doing Hackintosh with my ThinkPad T14 gen 4",
+    "tags": [],
+    "cover": null,
+    "html": "<p>So this is my experience in doing Hackintosh with my ThinkPad T14 gen 4</p>"
+  },
+  {
+    "title": "Getting to know Entra ID and Intune for Business",
+    "slug": "getting-to-know-entra-id-and-intune-for-business",
+    "url": "https://christiannsantoso.hashnode.dev/getting-to-know-entra-id-and-intune-for-business",
+    "date": "2026-11-01",
+    "excerpt": "What is Intune, Azure, and 365 for Business Microsoft has a wide range suite of applications, both for business and for personal. Everyone working for…",
+    "tags": [],
+    "cover": "https://learn.microsoft.com/id-id/intune/intune-service/fundamentals/media/high-level-architecture/intunearchitecture_wh.png#lightbox",
+    "html": "<img src=\"https://learn.microsoft.com/id-id/intune/intune-service/fundamentals/media/high-level-architecture/intunearchitecture_wh.png#lightbox\" alt=\"High-level architectural diagram for Microsoft Intune\" />\n\n<p>What is Intune, Azure, and 365 for Business</p>\n<p>Microsoft has a wide range suite of applications, both for business and for personal. Everyone working for corporates would be at least touching these tools, or even actively using it from day to day. For emails and office works, we use Outlook, Microsoft Office 365. For our <em>work-from-home</em> policy we usually use Teams. However, Microsoft’s suite of software for business didn’t actually stop there, it goes even further. Some of us were even told by our company’s IT department to install those so called “Company Portal” app in our smartphone. So we can access (Read: work) from anywhere everywhere. Yes, Microsoft actually introduced quite a lot of software for business, and we are going to look into it one by one in this article, more specifically, the environment.</p>\n<p>All of us uses Windows. Yes, the operating system that wouldn’t seem to stop updating the moment we are trying to shut down our PC. Windows’s history goes as far as the early 1970s, starting with Windows 1.0, until now we have Windows 11. For many of us, Windows is one of the first Microsoft products we have touched and used on daily basis. It is also happens to be the forefront of our interaction with these Business Services that Microsoft provides. The seamless-ness of Windows, and Enterprises, was reflected to the moment we are opening and logging in on our company laptop, starting when we need to enter our domain address email, configuring lots of our stuff, and so on.</p>\n<p>How does this works?</p>"
+  },
+  {
+    "title": "Test Draft from Hashnode",
+    "slug": "test-draft-from-hashnode",
+    "url": "https://christiannsantoso.hashnode.dev/test-draft-from-hashnode",
+    "date": "2026-11-01",
+    "excerpt": "testt",
+    "tags": [],
+    "cover": null,
+    "html": "<p>testt</p>"
+  }
+]
