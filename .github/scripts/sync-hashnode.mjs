@@ -48,6 +48,61 @@ const posts = items.map(it => {
   };
 }).filter(p => p.title && p.url);
 
-writeFileSync('posts.json', JSON.stringify(posts, null, 2) + '\n');
-console.log(`Saved ${posts.length} post(s):`);
-posts.forEach(p => console.log(` - ${p.date}  ${p.title}  (${p.html.length} chars of HTML${p.cover ? ', cover' : ''})`));
+// ---- Split: posts tagged "activity" (or titled "[Activity] …" / "Activity: …") go to activities.json ----
+const ACT_TAG = /^activit(y|ies)$/i;
+const ACT_PREFIX = /^\s*(\[activity\]|activity\s*[:\-–—])\s*/i;
+const TYPE_WORDS = ['presentation', 'talk', 'keynote', 'webinar', 'workshop', 'training', 'seminar', 'conference', 'event', 'exhibition', 'expo', 'hackathon', 'meetup', 'panel', 'program', 'competition'];
+const ymd = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+// Optional detail lines at the top of an activity post, e.g.
+//   Date: 20 Oct 2026   Location: JIExpo, Jakarta   Role: Speaker   Type: Presentation   Organizer: …
+const META_KEYS = { date: 'date', when: 'date', location: 'location', where: 'location', venue: 'location', place: 'location',
+  role: 'role', type: 'type', organizer: 'organizer', organiser: 'organizer', host: 'organizer', hosted: 'organizer', event: 'event' };
+function extractMeta(html) {
+  const meta = {};
+  let out = html;
+  const blocks = [...html.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)].slice(0, 8);
+  for (const b of blocks) {
+    const lines = b[1].split(/<br\s*\/?>/i);
+    const kept = [];
+    for (const line of lines) {
+      const text = stripHtml(line).replace(/^[^\p{L}]+/u, '');
+      const m = text.match(/^([A-Za-z ]{2,12})\s*[:：]\s*(.+)$/);
+      const key = m && META_KEYS[m[1].trim().toLowerCase().split(' ')[0]];
+      if (key && !meta[key]) meta[key] = m[2].trim(); else kept.push(line);
+    }
+    if (kept.length !== lines.length) {
+      const rest = kept.join('<br>').trim();
+      out = out.replace(b[0], rest && stripHtml(rest) ? `<p>${rest}</p>` : '');
+    }
+  }
+  return { meta, html: out.trim() };
+}
+
+const journal = [], activities = [];
+for (const p of posts) {
+  const isAct = p.tags.some(t => ACT_TAG.test(t.replace(/[#\s]/g, ''))) || ACT_PREFIX.test(p.title);
+  if (!isAct) { journal.push(p); continue; }
+  const { meta, html } = extractMeta(p.html);
+  const d = meta.date ? new Date(meta.date) : null;
+  const typeFromTags = p.tags.map(t => t.toLowerCase()).find(t => TYPE_WORDS.includes(t));
+  activities.push({
+    ...p,
+    title: p.title.replace(ACT_PREFIX, ''),
+    tags: p.tags.filter(t => !ACT_TAG.test(t.replace(/[#\s]/g, ''))),
+    date: d && !isNaN(d) ? ymd(d) : p.date,
+    when: d && !isNaN(d) ? '' : (meta.date || ''),
+    type: cap(meta.type || typeFromTags || 'Event'),
+    role: meta.role || '',
+    location: meta.location || '',
+    organizer: meta.organizer || meta.event || '',
+    html,
+  });
+}
+
+writeFileSync('posts.json', JSON.stringify(journal, null, 2) + '\n');
+writeFileSync('activities.json', JSON.stringify(activities, null, 2) + '\n');
+console.log(`Saved ${journal.length} journal post(s) and ${activities.length} activit${activities.length === 1 ? 'y' : 'ies'}:`);
+journal.forEach(p => console.log(` - [journal]  ${p.date}  ${p.title}  tags=${JSON.stringify(p.tags)}`));
+activities.forEach(a => console.log(` - [activity] ${a.date}  ${a.title}  type=${a.type} role=${a.role} location=${a.location}`));

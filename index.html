@@ -249,6 +249,29 @@ body.dark .avatar{border-color:#000;box-shadow:4px 4px 0 #000}
 .term .g{color:#7bc35a}.term .y{color:var(--yellow)}.term .o{color:#ff8a4c}
 .term input{background:transparent;border:0;outline:none;color:#fff;font:inherit;width:70%}
 
+/* ---------- activities ---------- */
+.act-top{display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--win);position:sticky;top:0;z-index:2}
+.chip{border:1.5px solid var(--border);background:var(--win2);border-radius:999px;padding:3px 12px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--text)}
+.chip.on{background:var(--text);color:var(--win);border-color:var(--text)}
+.timeline{position:relative;padding:8px 18px 24px 18px}
+.tl-year{font-weight:700;font-size:13px;color:var(--muted);letter-spacing:.06em;margin:16px 0 8px 66px}
+.act{position:relative;display:flex;gap:14px;align-items:stretch;margin:0 0 12px;cursor:pointer}
+.act::before{content:"";position:absolute;left:27px;top:56px;bottom:-14px;width:2px;background:var(--border)}
+.act:last-child::before{display:none}
+.act-date{width:56px;flex:none;height:56px;border:2px solid #151515;border-radius:10px;background:var(--win);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:3px 3px 0 #151515;line-height:1.05;position:relative;z-index:1}
+body.dark .act-date{border-color:#000;box-shadow:3px 3px 0 #000}
+.act-date b{font-size:20px}.act-date span{font-size:11px;font-weight:600;text-transform:uppercase;color:var(--orange)}
+.act-card{flex:1;display:flex;gap:12px;border:1px solid var(--border2);border-radius:10px;background:var(--win);padding:12px 14px;transition:transform .15s,box-shadow .15s;min-width:0}
+.act:hover .act-card{transform:translateY(-2px);box-shadow:var(--shadow)}
+.act-card h3{margin:2px 0 4px;font-size:15px;line-height:1.3}
+.act-card .m{font-size:12.5px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap}
+.act-card p{margin:6px 0 0;font-size:13px;color:var(--muted);line-height:1.5}
+.act-thumb{width:110px;height:76px;flex:none;border-radius:8px;object-fit:cover;border:1px solid var(--border)}
+.type{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:999px;border:1.5px solid #151515;color:#151515;text-transform:uppercase;letter-spacing:.04em}
+.from-cv{font-size:11px;color:var(--muted);border:1px dashed var(--border2);border-radius:999px;padding:0 7px}
+.act-empty{padding:30px;text-align:center;color:var(--muted)}
+@media (max-width:760px){.act-thumb{display:none}.tl-year{margin-left:0}}
+
 /* ---------- website mode ---------- */
 #site{display:none}
 body.website #site{display:block}
@@ -392,6 +415,7 @@ const ICONS={
  projects:`<svg viewBox="0 0 48 48"><path d="M4 12a3 3 0 0 1 3-3h11l4 4h19a3 3 0 0 1 3 3v3H4z" fill="#c27f00" ${K}/><rect x="4" y="17" width="40" height="24" rx="3" fill="#f7a501" ${K}/><path d="M18 26l-4 3 4 3M30 26l4 3-4 3M26 24l-4 10" fill="none" ${K}/></svg>`,
  skills:`<svg viewBox="0 0 48 48"><rect x="11" y="11" width="26" height="26" rx="4" fill="#29dbbb" ${K}/><rect x="18" y="18" width="12" height="12" rx="2" fill="#fff" ${K}/><path d="M17 5v6M24 5v6M31 5v6M17 37v6M24 37v6M31 37v6M5 17h6M5 24h6M5 31h6M37 17h6M37 24h6M37 31h6" ${K}/></svg>`,
  education:`<svg viewBox="0 0 48 48"><path d="M13 23v10c0 3 5 6 11 6s11-3 11-6V23" fill="#b62ad9" ${K}/><path d="M24 8l21 10-21 10L3 18z" fill="#d77ff0" ${K}/><path d="M24 18l15 5v12" fill="none" ${K}/><circle cx="39" cy="37" r="2.5" fill="#f7a501" ${K}/></svg>`,
+ activities:`<svg viewBox="0 0 48 48"><rect x="5" y="9" width="38" height="34" rx="5" fill="#fff" ${K}/><path d="M5 14a5 5 0 0 1 5-5h28a5 5 0 0 1 5 5v5H5z" fill="#1d4aff" ${K}/><path d="M15 5v8M33 5v8" ${K}/><path d="M24 24l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z" fill="#f7a501" ${K}/></svg>`,
  journal:`<svg viewBox="0 0 48 48"><rect x="9" y="5" width="32" height="38" rx="4" fill="#f54e00" ${K}/><path d="M9 12H5M9 20H5M9 28H5M9 36H5" ${K}/><rect x="16" y="12" width="19" height="9" rx="2" fill="#fff" ${K}/></svg>`,
  contact:`<svg viewBox="0 0 48 48"><path d="M24 6C13 6 5 13 5 22c0 5 3 9 7 12l-2 8 9-5c2 .5 3 .6 5 .6 11 0 19-7 19-15.6S35 6 24 6z" fill="#7bc35a" ${K}/><circle cx="16" cy="22" r="1.6" fill="#151515"/><circle cx="24" cy="22" r="1.6" fill="#151515"/><circle cx="32" cy="22" r="1.6" fill="#151515"/></svg>`,
  terminal:`<svg viewBox="0 0 48 48"><rect x="4" y="7" width="40" height="34" rx="5" fill="#151515" ${K}/><path d="M4 15h40" stroke="#555" stroke-width="2"/><path d="M12 23l6 5-6 5" fill="none" stroke="#7bc35a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 33h10" stroke="#7bc35a" stroke-width="3" stroke-linecap="round"/></svg>`,
@@ -442,6 +466,17 @@ const isDark=()=>document.body.classList.contains('dark');
 
 /* ================= POSTS / CMS ================= */
 let POSTS=JSON.parse(document.getElementById('posts-data').textContent);
+/* Activities: events, talks, workshops… Synced from Hashnode posts tagged "activity" (activities.json),
+   plus these entries taken from the CV. */
+const ACT_SEED=[
+  {title:"Harvard AI Health Systems Innovations — Kepler Team",date:"2026-01-15",when:"Jan 2026 – Present",type:"Program",role:"Team leader · technical lead for stakeholder presentations",organizer:"Harvard Health Systems Innovation Lab",cv:true,
+   excerpt:"Leading an AI healthcare prototype (YOLOv8, MediaPipe, quantized models) and presenting it to stakeholders.",html:"<p>Team leader of the Harvard Health Systems Innovations Kepler Team. Led the development of an AI healthcare prototype to demonstrate market viability with YOLOv8, OpenCV's MediaPipe and quantized models, and acted as technical lead for stakeholder presentations — bridging complex AI models and healthcare business needs.</p>"},
+  {title:"Confluent AI Solution Day Hackathon",date:"2025-12-01",when:"Nov – Dec 2025",type:"Hackathon",role:"Team member · 3rd runner-up 🏆",organizer:"Confluent & Mitra Integrasi Informatika",cv:true,
+   excerpt:"Built a B2B distribution and credit-checker platform on AWS with Apache Kafka and Confluent Cloud.",html:"<p>Built a B2B enterprise distribution and credit-checker platform leveraging AWS and the Apache Kafka data-streaming platform on Confluent Cloud. Placed as the 3rd best runner-up.</p>"},
+  {title:"Asia AI Developer Challenge 2025 (SEA-Lion)",date:"2025-09-01",when:"Aug – Sep 2025",type:"Hackathon",role:"Team leader",organizer:"NVIDIA, AWS, Google Cloud & GoTo Group",cv:true,
+   excerpt:"Led a four-person team building a mental-healthcare support solution for teenagers with SEA-Lion LLM, RAG and AWS.",html:"<p>Organised and led a team of four multidisciplinary members to develop a comprehensive mental-healthcare solution for teenagers using the SEA-Lion LLM, Retrieval-Augmented Generation (RAG) and Amazon Web Services.</p>"}
+];
+let ACTS=[...ACT_SEED];
 /* Blog source: posts come from Hashnode (write at hashnode.com, they appear here).
    Change HASHNODE_HOST if your blog address changes. Falls back to posts.json, then the samples above. */
 const HASHNODE_HOST="christiannsantoso.hashnode.dev";
@@ -457,6 +492,7 @@ async function loadPosts(){
   const show=(list,src)=>{POSTS=list;postSource=src;refreshApp('journal');if(S.mode==='website')renderSite();renderMenus()};
   // 1) posts.json — synced from Hashnode every hour by the GitHub Action (reliable, never blocked)
   try{const l=await fromJSON();if(l)show(l,'hashnode')}catch(e){}
+  try{const r=await fetch('activities.json',{cache:'no-store'});if(r.ok){const j=await r.json();if(Array.isArray(j)&&j.length){ACTS=[...j,...ACT_SEED];refreshApp('activities');if(S.mode==='website')renderSite();renderMenus()}}}catch(e){}
   // (Hashnode's API blocks browser requests (CORS), so the site never calls it directly.)
 }
 const inline=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<i>$1</i>').replace(/`(.+?)`/g,'<code>$1</code>').replace(/\[(.+?)\]\((https?:[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
@@ -482,6 +518,25 @@ const paperHTML=()=>`<h1>${P.name}</h1><div class="c">${P.location} | ${P.phone}
   <h4>CERTIFICATIONS</h4><ul>${P.certs.map(c=>`<li>${c[0]} — ${c[1]}</li>`).join('')}</ul><h4>AFFILIATIONS</h4><ul>${P.orgs.map(o=>`<li>${o[0]} — ${o[1]}</li>`).join('')}</ul>`;
 const postListHTML=()=>POSTS.map((p,i)=>`<div class="pi" data-post="${i}"><b>${esc(p.title)}${p.sample?'<span class="sample">sample</span>':''}</b><small>${fmtDate(p.date)} · ${(p.tags||[]).join(', ')}</small><div class="hint" style="margin-top:4px">${esc(p.excerpt||'')}</div></div>`).join('');
 const postHTML=i=>{const p=POSTS[i];return `<article class="doc post"><div class="meta">${fmtDate(p.date)} ${(p.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}${p.sample?'<span class="sample">sample</span>':''}</div><h1>${esc(p.title)}</h1>${p.cover?`<img src="${esc(p.cover)}" alt="" style="width:100%;border-radius:10px;border:1px solid var(--border);margin:6px 0 14px">`:''}<div class="body">${p.html||md(p.body||'')}</div>${p.url?`<p style="margin-top:22px"><a class="cbtn white sm" href="${esc(p.url)}" target="_blank" rel="noopener"><span>Read &amp; comment on Hashnode ↗</span></a></p>`:''}</article>`};
+const TYPE_COL={presentation:'#ffb48a',talk:'#ffb48a',keynote:'#ffb48a',webinar:'#ffd27a',workshop:'#a9d394',training:'#a9d394',seminar:'#ffd27a',conference:'#8fa6ff',event:'#8fa6ff',exhibition:'#f7a501',expo:'#f7a501',hackathon:'#dba3ee',competition:'#dba3ee',program:'#29dbbb',meetup:'#8fa6ff',panel:'#ffb48a'};
+const typeBadge=t=>`<span class="type" style="background:${TYPE_COL[(t||'').toLowerCase()]||'#d0d1c9'}">${esc(t||'Event')}</span>`;
+const actsSorted=()=>[...ACTS].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+const actWhen=a=>a.when||fmtDate(a.date);
+function actListHTML(filter){const list=actsSorted().map((a,i)=>({a,i})).filter(x=>!filter||filter==='All'||(x.a.type||'').toLowerCase()===filter.toLowerCase());
+  if(!list.length)return '<div class="act-empty">Nothing here yet.</div>';let yr='',h='';
+  list.forEach(({a,i})=>{const y=(a.date||'').slice(0,4);if(y!==yr){yr=y;h+=`<div class="tl-year">${y}</div>`}
+    const d=a.date?new Date(a.date+'T00:00:00'):null;
+    h+=`<div class="act" data-acti="${i}"><div class="act-date">${a.when&&d?`<b style="font-size:15px">${d.toLocaleDateString('en-GB',{month:'short'})}</b><span>${d.getFullYear()}</span>`:`<b>${d?d.getDate():'—'}</b><span>${d?d.toLocaleDateString('en-GB',{month:'short'}):''}</span>`}</div>
+      <div class="act-card"><div style="flex:1;min-width:0">${typeBadge(a.type)} ${a.cv?'<span class="from-cv">from CV</span>':''}<h3>${esc(a.title)}</h3>
+      <div class="m">${a.when?`<span>🗓 ${esc(a.when)}</span>`:''}${a.role?`<span>🎤 ${esc(a.role)}</span>`:''}${a.location?`<span>📍 ${esc(a.location)}</span>`:''}${a.organizer?`<span>🏢 ${esc(a.organizer)}</span>`:''}</div>
+      ${a.excerpt?`<p>${esc(a.excerpt)}</p>`:''}</div>${a.cover?`<img class="act-thumb" src="${esc(a.cover)}" alt="" loading="lazy">`:''}</div></div>`});
+  return h}
+function actTypes(){return ['All',...new Set(ACTS.map(a=>a.type||'Event'))]}
+function actDetail(i){const a=actsSorted()[i];sheet(`<article class="doc post" style="max-width:none">
+  ${a.cover?`<img src="${esc(a.cover)}" alt="" style="width:100%;max-height:320px;object-fit:cover;border-radius:10px;border:1px solid var(--border);margin-bottom:14px">`:''}
+  <div>${typeBadge(a.type)} ${a.cv?'<span class="from-cv">from CV</span>':''}</div><h1 style="margin-top:8px">${esc(a.title)}</h1>
+  <table class="facts"><tr><td>When</td><td>${esc(actWhen(a))}</td></tr>${a.role?`<tr><td>My role</td><td>${esc(a.role)}</td></tr>`:''}${a.location?`<tr><td>Where</td><td>${esc(a.location)}</td></tr>`:''}${a.organizer?`<tr><td>Organizer</td><td>${esc(a.organizer)}</td></tr>`:''}</table>
+  <div class="body">${a.html||''}</div>${a.url?`<p style="margin-top:20px"><a class="cbtn white sm" href="${esc(a.url)}" target="_blank" rel="noopener"><span>Read on Hashnode ↗</span></a></p>`:''}</article>`)}
 const contactHTML=()=>`<form class="cform" novalidate>
   <div class="to-line"><img src="img/me-face.jpg" alt="" style="width:28px;height:28px;border-radius:7px;border:1.5px solid #151515">${ICONS.wa}<span>To <b>${P.first}</b> on WhatsApp · ${P.phone}</span></div>
   <div class="two"><div><label for="cf-name">Your name *</label><input class="field" id="cf-name" name="name" placeholder="Jane Doe"></div><div><label for="cf-co">Company</label><input class="field" id="cf-co" name="co" placeholder="Optional"></div></div>
@@ -504,6 +559,7 @@ const APPS={
   education:{title:"Education & certifications",icon:"education",w:620,h:560,render:()=>`<div class="doc"><h1>Education &amp; certifications</h1>${eduHTML()}</div>`},
   resume:{title:"Resume_Christian_Nathanael.pdf",icon:"resume",w:760,h:640,render:()=>`<div style="display:flex;flex-direction:column;height:100%"><div class="toolbar"><div class="seg"><button data-zoom="-1">−</button><button data-zoom="0">100%</button><button data-zoom="1">+</button></div><span style="flex:1"></span><button class="cbtn white sm" data-copy="${P.email}"><span>Copy email</span></button></div><div class="paperwrap" style="flex:1;overflow:auto"><div class="paper" id="paper">${paperHTML()}</div></div></div>`},
   journal:{title:"Journal",icon:"journal",w:820,h:560,nav:true,render:()=>`<div class="split"><div class="side plist" style="width:280px;padding:0;background:var(--win)">${postListHTML()}<div class="cms">${postSource==='hashnode'?`Posts are written on <a href="${window.__blogURL||'https://'+HASHNODE_HOST}" target="_blank" rel="noopener">my Hashnode blog</a> ↗`:'Sample posts — real ones will appear here once synced from Hashnode.'}</div></div><div class="main" id="reader"><div class="doc"><h1>Journal</h1><p class="lead">Notes on industrial networking, AI side projects and the business of tech. Pick a post on the left.</p></div></div></div>`},
+  activities:{title:"Activities",icon:"activities",w:760,h:580,render:()=>`<div class="act-top">${actTypes().map((t,i)=>`<button class="chip ${i?'':'on'}" data-actf="${esc(t)}">${esc(t)}</button>`).join('')}<span class="hint" style="margin-left:auto">${ACTS.length} activities</span></div><div class="timeline" id="act-list">${actListHTML('All')}</div>`},
   contact:{title:"Contact me",icon:"contact",w:560,h:560,render:contactHTML},
   terminal:{title:"Terminal",icon:"terminal",w:620,h:380,render:()=>`<div class="term" id="term"></div>`},
   prefs:{title:"Display options",icon:"prefs",w:620,h:520,render:()=>`<div class="doc" style="max-width:none">
@@ -517,9 +573,9 @@ const APPS={
     <div class="prow"><label>Site mode</label><button class="cbtn sm" data-act="toggleMode"><span>Switch to website mode</span></button></div>
     <div class="prow"><label>Icons</label><button class="cbtn white sm" data-act="resetIcons"><span>Tidy up desktop icons</span></button></div></div>`}
 };
-const DOCK=['about','experience','projects','skills','education','resume','journal','contact','terminal','prefs'];
+const DOCK=['about','experience','projects','skills','education','resume','activities','journal','contact','terminal','prefs'];
 const DESK_L=[['about','About me'],['resume','Résumé.pdf'],['experience','Experience'],['projects','Projects'],['skills','Skills'],['education','Education']];
-const DESK_R=[['journal','Journal'],['contact','Contact me'],['terminal','Terminal'],['prefs','Display options'],['trash','Trash']];
+const DESK_R=[['activities','Activities'],['journal','Journal'],['contact','Contact me'],['terminal','Terminal'],['prefs','Display options'],['trash','Trash']];
 
 /* ================= THEME / WALL ================= */
 const mq=matchMedia('(prefers-color-scheme: dark)');
@@ -542,7 +598,7 @@ function menus(){
     {label:ICONS.logo,items:[{label:'About this site',act:aboutSite},{label:'Display options…',act:()=>openApp('prefs')},{sep:1},{label:'Switch to website mode',act:toggleMode},{label:'Theme',sub:theme},{sep:1},{label:'Close all windows',dis:!wins.length,act:()=>wins.forEach(closeWin)}]},
     {label:app?app.title.replace(/\.pdf$/,''):'Christian.OS',bold:1,cls:'hide-s',items:[{label:`Search…`,sc:'Ctrl/⌘ K',act:openPalette},{sep:1},{label:'Minimize',dis:!app,act:()=>minimize(activeId)},{label:'Maximize',dis:!app,act:()=>zoom(activeId)},{label:'Close',dis:!app,act:()=>closeWin(activeId)}]},
     {label:'About',items:[go('about'),go('resume'),{sep:1},go('education'),go('skills')]},
-    {label:'Work',items:[go('experience'),{label:'Projects',sub:[{label:'All projects',act:()=>openApp('projects')},{sep:1},...P.projects.map((p,i)=>({label:p.name,act:()=>{openApp('projects');setTimeout(()=>projSheet(i),150)}}))]}]},
+    {label:'Work',items:[go('experience'),go('activities'),{label:'Projects',sub:[{label:'All projects',act:()=>openApp('projects')},{sep:1},...P.projects.map((p,i)=>({label:p.name,act:()=>{openApp('projects');setTimeout(()=>projSheet(i),150)}}))]}]},
     {label:'Journal',cls:'hide-s',items:[{label:'All posts',act:()=>openApp('journal')},{sep:1},...POSTS.map((p,i)=>({label:p.title.length>44?p.title.slice(0,42)+'…':p.title,act:()=>openPost(i)}))]},
     {label:'View',cls:'hide-s',items:[{label:'Theme',sub:theme},{label:'Wallpaper',sub:Object.entries(WALLS).map(([k,w])=>({label:w.name,check:S.wall===k,act:()=>setWall(k)}))},{label:'Animations',check:S.anim,act:()=>{S.anim=!S.anim;store.set('anim',S.anim);applyAnim()}},{label:'Dock',check:S.dock,act:()=>{S.dock=!S.dock;store.set('dock',S.dock);applyDock()}},{sep:1},{label:'Tidy up icons',act:resetIcons},{label:'Website mode',act:toggleMode}]},
     {label:'Window',cls:'hide-s',items:[{label:'Arrange side by side',dis:wins.length<2,act:tile},{label:'Cascade',dis:!wins.length,act:cascade},...(wins.length?[{sep:1}]:[]),...wins.map(id=>({label:APPS[id].title,check:id===activeId,act:()=>openApp(id)}))]},
@@ -674,6 +730,8 @@ function showPost(el,i,push=true){const w=openWins.journal;el.querySelector('#re
 function navBtns(){const w=openWins.journal;if(!w)return;const b=w.el.querySelector('[data-nav="back"]'),f=w.el.querySelector('[data-nav="fwd"]');b.disabled=w.hi<1;f.disabled=w.hi>=w.hist.length-1}
 function openPost(i){if(S.mode==='website'){postSheet(i);return}openApp('journal');setTimeout(()=>showPost(openWins.journal.el,i),50)}
 function setupApp(id,el){
+  if(id==='activities'){const wire=()=>el.querySelectorAll('[data-acti]').forEach(c=>c.onclick=()=>actDetail(+c.dataset.acti));wire();
+    el.querySelectorAll('[data-actf]').forEach(b=>b.onclick=()=>{el.querySelectorAll('[data-actf]').forEach(x=>x.classList.toggle('on',x===b));el.querySelector('#act-list').innerHTML=actListHTML(b.dataset.actf);wire()})}
   if(id==='experience')el.querySelectorAll('[data-exp]').forEach(s=>s.onclick=()=>{el.querySelectorAll('[data-exp]').forEach(x=>x.classList.toggle('on',x===s));el.querySelector('#exp-main').innerHTML=jobHTML(+s.dataset.exp)});
   if(id==='projects')el.querySelectorAll('[data-proj]').forEach(s=>s.onclick=()=>projSheet(+s.dataset.proj));
   if(id==='journal'){el.querySelectorAll('[data-post]').forEach(s=>s.onclick=()=>showPost(el,+s.dataset.post));
@@ -726,6 +784,7 @@ function palIndex(){const L=[];Object.keys(APPS).forEach(id=>L.push({t:APPS[id].
   P.projects.forEach((p,i)=>L.push({t:p.name,k:'Project',ic:'projects',s:p.stack.join(' ')+' '+p.desc,go:()=>{S.mode==='desktop'&&openApp('projects');setTimeout(()=>projSheet(i),120)}}));
   P.jobs.forEach(j=>L.push({t:j.role,k:j.co,ic:'experience',s:j.points.join(' '),go:()=>openApp('experience')}));
   P.skills.forEach(g=>g.items.forEach(x=>L.push({t:x,k:'Skill',ic:'skills',go:()=>openApp('skills')})));
+  actsSorted().forEach((a,i)=>L.push({t:a.title,k:a.type||'Activity',ic:'activities',s:[a.role,a.location,a.organizer,a.excerpt].join(' '),go:()=>{S.mode==='desktop'&&openApp('activities');setTimeout(()=>actDetail(i),120)}}));
   POSTS.forEach((p,i)=>L.push({t:p.title,k:'Post',ic:'journal',s:p.body,go:()=>openPost(i)}));
   P.certs.forEach(c=>L.push({t:c[0],k:'Certification',ic:'education',go:()=>openApp('education')}));
   L.push({t:'Message me on WhatsApp',k:'Action',ic:'contact',go:()=>openApp('contact')},{t:'Toggle dark mode',k:'Action',ic:'prefs',go:()=>setTheme(isDark()?'light':'dark')},{t:'Switch website / desktop mode',k:'Action',ic:'prefs',go:toggleMode});return L}
@@ -754,7 +813,7 @@ function aboutSite(){toast('About this site',`A little desktop OS in your browse
 function sec(id,title,icon,body){return `<section class="sec" id="${id}"><div class="sh">${ICONS[icon]}${title}</div><div class="sb">${body}</div></section>`}
 function renderSite(){
   $('#site').innerHTML=`<header class="shead"><a class="brand" href="#about">${ICONS.logo}<span>${P.name}</span></a>
-    <nav class="snav"><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#education">Education</a><a href="#journal">Journal</a><a href="#contact">Contact</a></nav>
+    <nav class="snav"><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#activities">Activities</a><a href="#skills">Skills</a><a href="#education">Education</a><a href="#journal">Journal</a><a href="#contact">Contact</a></nav>
     <div style="display:flex;gap:6px;align-items:center"><button class="tb-btn" id="s-theme" title="Toggle light/dark">${isDark()?ICONS.moon:ICONS.sun}</button><button class="cbtn white sm" id="s-mode"><span>${ICONS.desk} Desktop mode</span></button></div></header>
   <div class="sbody"><div class="wrap">
     <section class="shero" id="about"><div>
@@ -768,6 +827,7 @@ function renderSite(){
       </div></section>
     ${sec('experience','Experience','experience',P.jobs.map(j=>`<div class="job"><h3>${j.role}</h3><div class="meta"><b>${j.co}</b> · ${j.place} · ${j.dates}</div><ul>${j.points.map(p=>`<li>${p}</li>`).join('')}</ul></div>`).join(''))}
     ${sec('projects','Projects','projects',`<div class="cols">${P.projects.map(projCard).join('')}</div>`)}
+    ${sec('activities','Activities','activities',`<div class="timeline" style="padding:0">${actListHTML('All')}</div>`)}
     ${sec('skills','Skills','skills',`<div class="cols">${P.skills.map(g=>`<div><h3 style="margin:0 0 8px;font-size:15px">${g.group}</h3>${g.items.map(x=>`<span class="tag ${g.c}">${x}</span>`).join('')}</div>`).join('')}</div>`)}
     ${sec('education','Education & certifications','education',eduHTML())}
     ${sec('journal','Journal','journal',`<div class="cols">${POSTS.map((p,i)=>`<div class="pcard" data-spost="${i}"><div class="pb"><div class="meta" style="margin:0 0 4px;font-size:12px">${fmtDate(p.date)}${p.sample?'<span class="sample">sample</span>':''}</div><h3>${esc(p.title)}</h3><p>${esc(p.excerpt||'')}</p><span class="cbtn white sm"><span>Read →</span></span></div></div>`).join('')}</div>`)}
@@ -776,6 +836,7 @@ function renderSite(){
   $('#s-theme').onclick=()=>setTheme(isDark()?'light':'dark');$('#s-mode').onclick=toggleMode;
   wireContact($('#site .cf-site'));
   $('#site').querySelectorAll('[data-spost]').forEach(c=>c.onclick=()=>postSheet(+c.dataset.spost));
+  $('#site').querySelectorAll('#activities [data-acti]').forEach(c=>c.onclick=()=>actDetail(+c.dataset.acti));
   $('#site').querySelectorAll('#projects [data-proj]').forEach(c=>c.onclick=()=>projSheet(+c.dataset.proj));
 }
 function toggleMode(){S.mode=S.mode==='desktop'?'website':'desktop';store.set('mode',S.mode);applyMode()}

@@ -28,10 +28,10 @@ jobs:
 
       - name: Commit if changed
         run: |
-          if [ -n "$(git status --porcelain posts.json)" ]; then
+          if [ -n "$(git status --porcelain posts.json activities.json)" ]; then
             git config user.name "hashnode-sync"
             git config user.email "actions@users.noreply.github.com"
-            git add posts.json
+            git add posts.json activities.json
             git commit -m "Sync posts from Hashnode"
             git push
           else
