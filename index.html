@@ -453,10 +453,12 @@ async function fromHashnode(){
   const list=pub.posts.edges.map(e=>e.node).map(n=>({title:n.title,slug:n.slug,url:n.url,date:(n.publishedAt||'').slice(0,10),excerpt:n.brief,tags:(n.tags||[]).map(t=>t.name),cover:n.coverImage&&n.coverImage.url,read:n.readTimeInMinutes,html:n.content&&n.content.html}));
   window.__blogURL=pub.url;return list.length?list:null}
 async function fromJSON(){const r=await fetch('posts.json',{cache:'no-store'});if(!r.ok)return null;const j=await r.json();return Array.isArray(j)&&j.length?j:null}
-async function loadPosts(){let list=null;
-  try{list=await fromHashnode();if(list)postSource='hashnode'}catch(e){}
-  if(!list){try{list=await fromJSON();if(list)postSource='json'}catch(e){}}
-  if(list){POSTS=list;refreshApp('journal');if(S.mode==='website')renderSite();renderMenus()}}
+async function loadPosts(){
+  const show=(list,src)=>{POSTS=list;postSource=src;refreshApp('journal');if(S.mode==='website')renderSite();renderMenus()};
+  // 1) posts.json — synced from Hashnode every hour by the GitHub Action (reliable, never blocked)
+  try{const l=await fromJSON();if(l)show(l,'hashnode')}catch(e){}
+  // (Hashnode's API blocks browser requests (CORS), so the site never calls it directly.)
+}
 const inline=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<i>$1</i>').replace(/`(.+?)`/g,'<code>$1</code>').replace(/\[(.+?)\]\((https?:[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
 function md(src){return src.split(/\n\s*\n/).map(b=>{const L=b.split('\n');
   if(/^##\s/.test(b)){const[h,...r]=L;return `<h2>${inline(h.replace(/^##\s*/,''))}</h2>`+(r.length?md(r.join('\n')):'')}
@@ -501,7 +503,7 @@ const APPS={
   skills:{title:"Skills",icon:"skills",w:600,h:460,render:()=>`<div class="doc"><h1>Skills &amp; tools</h1><p class="lead">The stack I sell with, and the stack I build with.</p>${P.skills.map(g=>`<div class="box"><h3>${g.group}</h3>${g.items.map(x=>`<span class="tag ${g.c}">${esc(x)}</span>`).join('')}</div>`).join('')}</div>`},
   education:{title:"Education & certifications",icon:"education",w:620,h:560,render:()=>`<div class="doc"><h1>Education &amp; certifications</h1>${eduHTML()}</div>`},
   resume:{title:"Resume_Christian_Nathanael.pdf",icon:"resume",w:760,h:640,render:()=>`<div style="display:flex;flex-direction:column;height:100%"><div class="toolbar"><div class="seg"><button data-zoom="-1">−</button><button data-zoom="0">100%</button><button data-zoom="1">+</button></div><span style="flex:1"></span><button class="cbtn white sm" data-copy="${P.email}"><span>Copy email</span></button></div><div class="paperwrap" style="flex:1;overflow:auto"><div class="paper" id="paper">${paperHTML()}</div></div></div>`},
-  journal:{title:"Journal",icon:"journal",w:820,h:560,nav:true,render:()=>`<div class="split"><div class="side plist" style="width:280px;padding:0;background:var(--win)">${postListHTML()}<div class="cms">${postSource==='hashnode'?`Posts are written on <a href="${window.__blogURL||'https://'+HASHNODE_HOST}" target="_blank" rel="noopener">my Hashnode blog</a> ↗`:'Posts load from my Hashnode blog. These three are placeholders shown until it is reachable.'}</div></div><div class="main" id="reader"><div class="doc"><h1>Journal</h1><p class="lead">Notes on industrial networking, AI side projects and the business of tech. Pick a post on the left.</p></div></div></div>`},
+  journal:{title:"Journal",icon:"journal",w:820,h:560,nav:true,render:()=>`<div class="split"><div class="side plist" style="width:280px;padding:0;background:var(--win)">${postListHTML()}<div class="cms">${postSource==='hashnode'?`Posts are written on <a href="${window.__blogURL||'https://'+HASHNODE_HOST}" target="_blank" rel="noopener">my Hashnode blog</a> ↗`:'Sample posts — real ones will appear here once synced from Hashnode.'}</div></div><div class="main" id="reader"><div class="doc"><h1>Journal</h1><p class="lead">Notes on industrial networking, AI side projects and the business of tech. Pick a post on the left.</p></div></div></div>`},
   contact:{title:"Contact me",icon:"contact",w:560,h:560,render:contactHTML},
   terminal:{title:"Terminal",icon:"terminal",w:620,h:380,render:()=>`<div class="term" id="term"></div>`},
   prefs:{title:"Display options",icon:"prefs",w:620,h:520,render:()=>`<div class="doc" style="max-width:none">
