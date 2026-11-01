@@ -1,0 +1,69 @@
+name: Sync Hashnode posts
+
+on:
+  schedule:
+    - cron: "17 * * * *"   # every hour
+  workflow_dispatch:        # "Run workflow" button in the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      HASHNODE_HOST: christiannsantoso.hashnode.dev
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch posts from Hashnode into posts.json
+        run: |
+          cat > /tmp/sync.mjs <<'EOF'
+          import { writeFileSync } from 'node:fs';
+          const host = process.env.HASHNODE_HOST;
+          const query = `query($host:String!){publication(host:$host){url posts(first:50){edges{node{
+            title slug url brief publishedAt readTimeInMinutes coverImage{url} tags{name} content{html}}}}}}`;
+          // POST, and re-POST manually if Hashnode answers with a redirect
+          let url = 'https://gql.hashnode.com/', res;
+          for (let i = 0; i < 5; i++) {
+            res = await fetch(url, {
+              method: 'POST', redirect: 'manual',
+              headers: { 'Content-Type': 'application/json', 'User-Agent': 'hashnode-sync-github-action' },
+              body: JSON.stringify({ query, variables: { host } }),
+            });
+            const loc = res.headers.get('location');
+            if (res.status >= 300 && res.status < 400 && loc) { url = new URL(loc, url).href; console.log('Redirected to', url); continue; }
+            break;
+          }
+          if (!res.ok) { console.error('Hashnode API HTTP', res.status, await res.text()); process.exit(1); }
+          const json = await res.json();
+          if (json.errors) { console.error(JSON.stringify(json.errors, null, 2)); process.exit(1); }
+          const pub = json.data && json.data.publication;
+          if (!pub) { console.error(`No Hashnode publication found at ${host}`); process.exit(1); }
+          const posts = pub.posts.edges.map(e => e.node).map(n => ({
+            title: n.title, slug: n.slug, url: n.url,
+            date: (n.publishedAt || '').slice(0, 10),
+            excerpt: n.brief, tags: (n.tags || []).map(t => t.name),
+            cover: n.coverImage ? n.coverImage.url : null,
+            read: n.readTimeInMinutes, html: n.content ? n.content.html : '',
+          }));
+          writeFileSync('posts.json', JSON.stringify(posts, null, 2) + '\n');
+          console.log(`Saved ${posts.length} post(s) from ${pub.url}`);
+          EOF
+          node /tmp/sync.mjs
+
+      - name: Commit if changed
+        run: |
+          if [ -n "$(git status --porcelain posts.json)" ]; then
+            git config user.name "hashnode-sync"
+            git config user.email "actions@users.noreply.github.com"
+            git add posts.json
+            git commit -m "Sync posts from Hashnode"
+            git push
+          else
+            echo "No changes."
+          fi
